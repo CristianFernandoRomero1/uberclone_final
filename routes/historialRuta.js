@@ -11,7 +11,9 @@ import {
     historialRutaConductorFeedback,
     aceptarViajeidConductor,
     historialRutaBuscarPasajero,
-    historialPasajero
+    historialPasajero,
+    historialConductor,
+    historialViajePendiente
 } from "../controllers/historialRuta.js";
 
 const router = Router();
@@ -23,6 +25,8 @@ router.post('/refrescarconductor/:id', historialRutaRefrescarConductor);
 router.post('/conductoraceptaviaje', aceptarViajeidConductor);
 router.post('/pasajero/feedback', historialRutaPasajeroFeedback);
 router.post('/conductor/feedback', historialRutaConductorFeedback);
-router.post('/historialpasajero', historialPasajero)
+router.post('/historialpasajero', historialPasajero);    
+router.post('/historialconductor', historialConductor);    
+router.post('/viajependiente', historialViajePendiente);
 
 export default router;

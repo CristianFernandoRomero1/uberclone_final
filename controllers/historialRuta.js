@@ -128,7 +128,28 @@ const historialRutaConductorFeedback = async (req, res) => {
 
 const historialPasajero = async (req, res) => {
     const {idPasajero} = req.body;
-    const historial = await historialRuta.find({idPasajero:idPasajero});
+    const historial = await historialRuta.find({idPasajero:idPasajero}).populate("idConductor",["nombre", "correo", "telefono", "numeroDocumentoIdentidad"]).populate("idPasajero",["nombre", "correo", "telefono", "numeroDocumentoIdentidad"]);
+    res.json({historial});
+}
+
+const historialConductor = async (req, res) => {
+    const {idConductor} = req.body;
+    const historial = await historialRuta.find({idConductor:idConductor}).populate("idConductor",["nombre", "correo", "telefono", "numeroDocumentoIdentidad"]).populate("idPasajero",["nombre", "correo", "telefono", "numeroDocumentoIdentidad"]);
+    res.json({historial});
+}
+const historialViajePendiente = async (req, res) => {
+    const {idUsuario} = req.body;
+    const historial = await historialRuta.find({
+        $and: [{
+            idConductor: {
+                $in: [idUsuario]
+            }
+        }, {
+            estadoViaje: {
+                $in: ["1"]
+            }
+        }]
+    });
     res.json({historial});
 }
 
@@ -141,5 +162,7 @@ export {
     historialRutaPasajeroFeedback,
     historialRutaConductorFeedback,
     aceptarViajeidConductor,
-    historialPasajero
+    historialPasajero,
+    historialConductor,
+    historialViajePendiente
 };
